@@ -1,4 +1,5 @@
 from slackclient import SlackClient
+from Speech import Speech
 import time
 import os
 
@@ -8,28 +9,10 @@ slack_client = SlackClient(token)
 
 link = '<https://cdn.meme.am/instances/400x/33568413.jpg|That would be great>'
 
-def speechAnalysis(text):
-    return text
-
 
 
 def replyGenerator(text, channel):
-
-    if 'do what' in text.lower() and link not in text:
-        slack_client.api_call(
-            'chat.postMessage',
-            channel=channel,
-            text=link,
-            as_user='true:'
-        )
-
-    if 'suck my dick' in text.lower() and link not in text:
-        slack_client.api_call(
-            'chat.postMessage',
-            channel=channel,
-            text="gladdly",
-            as_user='true:'
-        )
+    Speech.speechAnalysis(text)
 
 
 
@@ -46,7 +29,29 @@ if slack_client.rtm_connect():
                 channel = event['channel']
                 text = event['text']
 
-                replyGenerator(text, channel)
+                # if 'do what' in text.lower() and link not in text:
+                #     slack_client.api_call(
+                #         'chat.postMessage',
+                #         channel=channel,
+                #         text=link,
+                #         as_user='true:'
+                #     )
+                #
+                # if 'suck my dick' in text.lower() and link not in text:
+                #     slack_client.api_call(
+                #         'chat.postMessage',
+                #         channel=channel,
+                #         text="gladdly",
+                #         as_user='true:'
+                #     )
+
+                slack_client.api_call(
+                    'chat.postMessage',
+                    channel=channel,
+                    text=replyGenerator(text,channel),
+                    as_user='true:'
+                )
+
         time.sleep(1)
 else:
     print('Connection failed, invalid token?')
