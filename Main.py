@@ -35,10 +35,6 @@ def replyGenerator(text, channel):
 
 if slack_client.rtm_connect():
     print("Connected!!!!")
-
-
-
-
     while True:
         events = slack_client.rtm_read()
         for event in events:
@@ -51,7 +47,6 @@ if slack_client.rtm_connect():
                 text = event['text']
 
                 replyGenerator(text, channel)
-
         time.sleep(1)
 else:
     print('Connection failed, invalid token?')
